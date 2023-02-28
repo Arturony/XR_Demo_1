@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class MovingWall : MonoBehaviour
     [SerializeField]
     private AnimationCurve curve;
 
+    public static Action setKinematic;
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -38,5 +41,14 @@ public class MovingWall : MonoBehaviour
         distance = Vector3.Distance(start, this.target);
         lerpDuration = distance / speed;
         timeElapsed = 0f;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Collision!");
+            setKinematic?.Invoke();
+        }
     }
 }
